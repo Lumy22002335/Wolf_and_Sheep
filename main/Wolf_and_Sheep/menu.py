@@ -4,7 +4,8 @@ from button import Button
 class Menu:
     def __init__(self):
         
-        play = False
+        self.play = False
+        self.exit = False
 
         # Load font
         self.font = pygame.freetype.Font('NotoSans-Regular.ttf', 20)
@@ -28,6 +29,14 @@ class Menu:
         for b in self.buttons:
             b.render(game_display)
          
+    def on_mouse_up(self):
+        x, y = pygame.mouse.get_pos()
+        for b in self.buttons:
+            if b.rect.collidepoint(x, y):
+                b.on_click()
 
     def start_game(self):
-        play = True
+        self.play = True
+
+    def exit_game(self):
+        self.exit = True

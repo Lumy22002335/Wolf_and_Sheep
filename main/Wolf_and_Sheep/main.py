@@ -1,5 +1,6 @@
 import pygame
 from menu import Menu
+from game import Game
 
 def main():
     pygame.init()
@@ -19,6 +20,13 @@ def main():
                 current_scene.on_mouse_up()
 
         current_scene.render(game_display)
+
+        if isinstance(current_scene, Menu):
+            if current_scene.play:
+                current_scene = Game()
+
+        if current_scene.exit:
+            exit()
 
         pygame.display.flip()
 
