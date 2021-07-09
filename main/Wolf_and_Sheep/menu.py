@@ -13,3 +13,7 @@ class Menu:
 
     def render(self, game_display):
         game_display.fill((0, 0, 20))
+        game_display.blit(self.wolf, (0, 100))
+        game_display.blit(self.sheep, (1024, 100))
+        width = self.font_large.get_rect('WOLF & SHEEP').width
+        self.font_large.render_to(game_display, (640 - width // 2, 200), 'WOLF & SHEEP', (255, 255, 0))
