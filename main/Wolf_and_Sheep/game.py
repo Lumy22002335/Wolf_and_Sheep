@@ -17,6 +17,8 @@ class Game:
 
         self.grid_start = (384, 104)
 
+        self.mouse_grid_pos = (0, 0)
+
         self.grid = [[0, 1, 0, 1, 0, 1, 0, 1]]
         for i in range(0, 6):
             e = []
@@ -24,6 +26,12 @@ class Game:
                 e.append(0)
             self.grid.append(e)
         self.grid.append([0, 0, 0, 0, 2, 0, 0, 0])
+
+        # Set the turn to 2 (Sheep's turn)
+        self.turn = 2
+
+        # Set phase to 0 (0 = select Sheep or Wolf to move; 1 = select the tile to move to)
+        self.phase = 0
 
     def draw_grid(self, game_display):
         draw_y = self.grid_start[1]
@@ -45,10 +53,32 @@ class Game:
         self.button.render(game_display)
         self.draw_grid(game_display)
 
+    def update(self):
+        x, y = pygame.mouse.get_pos()
+        self.mouse_grid_pos = ((x - 384) // 64, (y - 104) // 64)
+        
     def on_mouse_up(self):
         x, y = pygame.mouse.get_pos()
         if self.button.rect.collidepoint(x, y):
             self.button.on_click()
+
+        # If we're on the selecting phase, check if the player clicked on the Wolf or Sheep tile
+        if self.phase == 0:
+            tile_clicked = self.grid[self.mouse_grid_pos[1]][self.mouse_grid_pos[0]]
+            if self.turn == tile_clicked:
+                self.phase = 1
+                self.selected_tile = self.mouse_grid_pos
+        
+        # If we're on the moving phase, check if the player clicked on a valid tile to move
+        elif self.phase == 1:
+            self.grid[self.mouse_grid_pos[1]][self.mouse_grid_pos[0]] = self.turn
+            self.grid[self.selected_tile[1]][self.selected_tile[0]] = 0
+
+            if self.turn == 1:
+                self.turn = 2
+            else:
+                self.turn = 1
+            self.phase = 0
 
     def exit_to_menu(self):
         self.exit = True

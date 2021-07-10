@@ -20,6 +20,7 @@ def main():
                 current_scene.on_mouse_up()
 
         current_scene.render(game_display)
+        current_scene.update()
 
         if isinstance(current_scene, Menu):
             if current_scene.play:

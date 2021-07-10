@@ -29,6 +29,9 @@ class Menu:
         for b in self.buttons:
             b.render(game_display)
          
+    def update(self):
+        pass
+
     def on_mouse_up(self):
         x, y = pygame.mouse.get_pos()
         for b in self.buttons:
