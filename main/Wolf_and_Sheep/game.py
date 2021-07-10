@@ -68,10 +68,16 @@ class Game:
                     mouse_hover = self.mouse_grid_pos[0] == x and self.mouse_grid_pos[1] == y
                     if self.phase == 0:
                         if self.turn == self.grid[y][x]:
-                            if mouse_hover:
-                                pygame.draw.rect(game_display, (0, 200, 0), (draw_x, draw_y, 64, 64), 0)
-                            else:
-                                pygame.draw.rect(game_display, (0, 200, 200), (draw_x, draw_y, 64, 64), 0)
+                            has_valid_movements = False
+                            for i in range(0, 8):
+                                for j in range(0, 8):
+                                    if self.valid_movement((x, y), (i, j), self.turn):
+                                        has_valid_movements = True
+                            if has_valid_movements:
+                                if mouse_hover:
+                                    pygame.draw.rect(game_display, (0, 200, 0), (draw_x, draw_y, 64, 64), 0)
+                                else:
+                                    pygame.draw.rect(game_display, (0, 200, 200), (draw_x, draw_y, 64, 64), 0)
                     if self.phase == 1:
                         if self.selected_tile[0] == x and self.selected_tile[1] == y:
                             pygame.draw.rect(game_display, (0, 200, 0), (draw_x, draw_y, 64, 64), 0)
@@ -132,10 +138,16 @@ class Game:
 
         # If we're on the selecting phase, check if the player clicked on the Wolf or Sheep tile
         if self.phase == 0:
-            tile_clicked = self.grid[self.mouse_grid_pos[1]][self.mouse_grid_pos[0]]
-            if self.turn == tile_clicked:
-                self.phase = 1
-                self.selected_tile = self.mouse_grid_pos
+            has_valid_movements = False
+            for i in range(0, 8):
+                for j in range(0, 8):
+                    if self.valid_movement((self.mouse_grid_pos[0], self.mouse_grid_pos[1]), (i, j), self.turn):
+                        has_valid_movements = True
+            if has_valid_movements:
+                tile_clicked = self.grid[self.mouse_grid_pos[1]][self.mouse_grid_pos[0]]
+                if self.turn == tile_clicked:
+                    self.phase = 1
+                    self.selected_tile = self.mouse_grid_pos
         
         # If we're on the moving phase, check if the player clicked on a valid tile to move
         elif self.phase == 1:
