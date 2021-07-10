@@ -62,6 +62,9 @@ class Game:
         if self.button.rect.collidepoint(x, y):
             self.button.on_click()
 
+        if self.mouse_grid_pos[0] < 0 or self.mouse_grid_pos[0] > 7 or self.mouse_grid_pos[1] < 0 or self.mouse_grid_pos[1] > 7:
+            return
+
         # If we're on the selecting phase, check if the player clicked on the Wolf or Sheep tile
         if self.phase == 0:
             tile_clicked = self.grid[self.mouse_grid_pos[1]][self.mouse_grid_pos[0]]
