@@ -26,7 +26,10 @@ def main():
                 current_scene = Game()
 
         if current_scene.exit:
-            exit()
+            if isinstance(current_scene, Menu):
+                exit()
+            else:
+                current_scene = Menu()
 
         pygame.display.flip()
 
