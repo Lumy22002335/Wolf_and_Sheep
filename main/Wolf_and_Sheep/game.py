@@ -64,10 +64,21 @@ class Game:
         for y in range(0, 8):
             draw_x = self.grid_start[0]
             for x in range(0, 8):
-
+                mouse_hover = self.mouse_grid_pos[0] == x and self.mouse_grid_pos[1] == y
+                if self.phase == 0:
+                    if self.turn == self.grid[y][x]:
+                        if mouse_hover:
+                            pygame.draw.rect(game_display, (0, 200, 0), (draw_x, draw_y, 64, 64), 0)
+                        else:
+                            pygame.draw.rect(game_display, (0, 200, 200), (draw_x, draw_y, 64, 64), 0)
                 if self.phase == 1:
+                    if self.selected_tile[0] == x and self.selected_tile[1] == y:
+                        pygame.draw.rect(game_display, (0, 200, 0), (draw_x, draw_y, 64, 64), 0)
                     if self.valid_movement(self.selected_tile, (x, y), self.turn):
-                        pygame.draw.rect(game_display, (255, 255, 0), (draw_x, draw_y, 64, 64), 0)
+                        if mouse_hover:
+                            pygame.draw.rect(game_display, (255, 255, 0), (draw_x, draw_y, 64, 64), 0)
+                        else:
+                            pygame.draw.rect(game_display, (150, 50, 0), (draw_x, draw_y, 64, 64), 0)
 
                 pygame.draw.rect(game_display, (0, 255, 0), (draw_x, draw_y, 64, 64), 2)
 
