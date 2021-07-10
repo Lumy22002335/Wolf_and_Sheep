@@ -39,14 +39,20 @@ class Game:
 
         if target[0] < 0 or target[0] > 7:
             return False
+        
         if target[1] < 0 or target[1] > 7:
             return False
 
         tile_dist = abs(target[0] - source[0]) + abs(target[1] - source[1])
         if tile_dist != 2:
             return False
+        
         if self.grid[target[1]][target[0]] != 0:
             return False
+
+        if self.turn == 1:
+            if source[1] > target[1]:
+                return False
         return True
 
     def draw_grid(self, game_display):
